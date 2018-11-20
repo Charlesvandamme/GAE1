@@ -2,9 +2,20 @@ package ds.gae.entities;
 
 import java.util.Date;
 
-public class Quote {
+import javax.persistence.*;
 
+import com.google.appengine.api.datastore.Key;
+
+@Entity
+@MappedSuperclass
+public class Quote {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Key key;
+	@Temporal(TemporalType.DATE)
     private Date startDate;
+	@Temporal(TemporalType.DATE)
     private Date endDate;
     private String carRenter;
     private String rentalCompany;
@@ -14,7 +25,10 @@ public class Quote {
     /***************
 	 * CONSTRUCTOR *
 	 ***************/
-
+    public Quote() {
+    	
+    }
+    
     Quote(String carRenter, Date start, Date end, String rentalCompany, String carType, double rentalPrice) {
         this.carRenter = carRenter;
         this.startDate = start;
@@ -24,6 +38,10 @@ public class Quote {
         this.rentalPrice = rentalPrice;
     }
 
+    public Key getKey() {
+    	return this.key;
+    }
+    
     public Date getStartDate() {
         return startDate;
     }

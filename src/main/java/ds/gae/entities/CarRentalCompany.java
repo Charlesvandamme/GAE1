@@ -1,6 +1,7 @@
 package ds.gae.entities;
 
 import java.util.Collection;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,19 +12,28 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.*;
+
 import ds.gae.ReservationException;
 
+@Entity
 public class CarRentalCompany {
 
 	private static Logger logger = Logger.getLogger(CarRentalCompany.class.getName());
 	
+	@Id
 	private String name;
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Car> cars;
+	@OneToMany(cascade = CascadeType.ALL)
 	private Map<String,CarType> carTypes = new HashMap<String, CarType>();
 
 	/***************
 	 * CONSTRUCTOR *
 	 ***************/
+	public CarRentalCompany() {
+		
+	}
 
 	public CarRentalCompany(String name, Set<Car> cars) {
 		logger.log(Level.INFO, "<{0}> Car Rental Company {0} starting up...", name);

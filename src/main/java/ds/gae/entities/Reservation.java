@@ -1,5 +1,8 @@
 package ds.gae.entities;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Reservation extends Quote {
 
     private int carId;
@@ -7,6 +10,9 @@ public class Reservation extends Quote {
     /***************
 	 * CONSTRUCTOR *
 	 ***************/
+    public Reservation() {
+    	
+    }
 
     Reservation(Quote quote, int carId) {
     	super(quote.getCarRenter(), quote.getStartDate(), quote.getEndDate(), 
