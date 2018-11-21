@@ -33,8 +33,7 @@ public class CarRentalServletContextListener implements ServletContextListener {
 	private boolean isDummyDataAvailable() {
 		// If the Hertz car rental company is in the datastore, we assume the dummy data is available
 
-		// FIXME: use persistence instead
-		return CarRentalModel.get().CRCS.containsKey("Hertz");
+		return CarRentalModel.companyIsRegistered("Hertz");
 
 	}
 	
@@ -50,8 +49,7 @@ public class CarRentalServletContextListener implements ServletContextListener {
             Set<Car> cars = loadData(name, datafile);
             CarRentalCompany company = new CarRentalCompany(name, cars);
             
-    		// FIXME: use persistence instead
-            CarRentalModel.get().CRCS.put(name, company);
+            CarRentalModel.addCarRentalCompany(company);
 
         } catch (NumberFormatException ex) {
             Logger.getLogger(CarRentalServletContextListener.class.getName()).log(Level.SEVERE, "bad file", ex);

@@ -16,6 +16,16 @@ import javax.persistence.*;
 
 import ds.gae.ReservationException;
 
+@NamedQueries( { 
+	
+	@NamedQuery(name = "allRegisteredCompanyNames",
+				query = "SELECT company.name FROM CarRentalCompany company")
+	,@NamedQuery(	name = "carTypesOfCompany",
+					query = "SELECT company.carTypes FROM CarRentalCompany company WHERE company.name = :crcName")
+		
+})
+
+
 @Entity
 public class CarRentalCompany {
 
@@ -26,8 +36,10 @@ public class CarRentalCompany {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Car> cars;
 	@OneToMany(cascade = CascadeType.ALL)
-	private Map<String,CarType> carTypes = new HashMap<String, CarType>();
-
+	private Map<String, CarType> carTypes = new HashMap<String, CarType>();
+	//@OneToMany(cascade = CascadeType.ALL)
+	//private Set<CarType> typeSet = new HashSet<CarType>();
+	
 	/***************
 	 * CONSTRUCTOR *
 	 ***************/

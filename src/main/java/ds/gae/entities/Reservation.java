@@ -1,6 +1,13 @@
 package ds.gae.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@NamedQueries({
+	@NamedQuery(name = "reservationsForRenter",
+				query = "SELECT reservation FROM Reservation reservation WHERE reservation.carRenter = :carRenter")
+})
 
 @Entity
 public class Reservation extends Quote {
