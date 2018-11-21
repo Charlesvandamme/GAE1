@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="zipSource" name="CarRentalGAE">
-	<property name="zip.filename" value="please-rename-this-file-to-your-firstname-and-lastname-before-submitting.zip" />
+	<property name="zip.filename" value="charles.vandamme.zip" />
 	<target description="Zip the source files" name="zipSource">
 		<delete file="${zip.filename}" quiet="true"/>
 		<zip destfile="${zip.filename}" update="false">
-			<zipfileset dir="src" prefix="src"/>	
-			<zipfileset dir="war" prefix="war">
+			<zipfileset dir="src" prefix="src"/>
+			<zipfileset dir="src/main/webapp" prefix="war">
 				<exclude name="WEB-INF/lib/**"/>
 				<exclude name="WEB-INF/classes/**"/>
 			</zipfileset>
@@ -14,7 +14,7 @@
 			  <include name="*.txt"/>
 			  <include name="*.pdf"/>
 			</fileset>			
-
+			
 		</zip>
 	</target>
 </project>

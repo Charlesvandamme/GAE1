@@ -1,10 +1,15 @@
 package ds.gae.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ReservationConstraints {
+public class ReservationConstraints implements Serializable{
     
-    private Date startDate;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Date startDate;
     private Date endDate;
     private String carType;
 	

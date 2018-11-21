@@ -1,5 +1,6 @@
 package ds.gae.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import java.util.Date;
@@ -27,13 +28,18 @@ import ds.gae.ReservationException;
 
 
 @Entity
-public class CarRentalCompany {
+public class CarRentalCompany implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = Logger.getLogger(CarRentalCompany.class.getName());
 	
 	@Id
 	private String name;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private Set<Car> cars;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Map<String, CarType> carTypes = new HashMap<String, CarType>();

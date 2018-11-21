@@ -1,6 +1,7 @@
 package ds.gae.listener;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
@@ -48,8 +49,8 @@ public class CarRentalServletContextListener implements ServletContextListener {
         	
             Set<Car> cars = loadData(name, datafile);
             CarRentalCompany company = new CarRentalCompany(name, cars);
+            CarRentalModel.getEntityManager().persist(company); 
             
-            CarRentalModel.addCarRentalCompany(company);
 
         } catch (NumberFormatException ex) {
             Logger.getLogger(CarRentalServletContextListener.class.getName()).log(Level.SEVERE, "bad file", ex);
@@ -58,9 +59,12 @@ public class CarRentalServletContextListener implements ServletContextListener {
         }
 	}
 	
+	private static Set<CarType> currentCarTypes;
+
 	public static Set<Car> loadData(String name, String datafile) throws NumberFormatException, IOException {
 		// FIXME: adapt the implementation of this method to your entity structure
-		
+		currentCarTypes = new HashSet<CarType>();
+
 		Set<Car> cars = new HashSet<Car>();
 		int carId = 1;
 
@@ -83,8 +87,10 @@ public class CarRentalServletContextListener implements ServletContextListener {
 					Double.parseDouble(csvReader.nextToken()),
 					Boolean.parseBoolean(csvReader.nextToken()));
 			//create N new cars with given type, where N is the 5th field
+			currentCarTypes.add(type);
 			for (int i = Integer.parseInt(csvReader.nextToken()); i > 0; i--) {
-				cars.add(new Car(carId++, type));
+				Car car = new Car(carId++, type);
+				cars.add(car);
 			}
 		}
 
