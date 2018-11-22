@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -32,8 +33,8 @@ public class Car implements Serializable {
 	private Key key;
 	
     private int id;
-    //@ManyToOne(cascade = CascadeType.ALL)
-    private CarType type;
+    @Transient
+	private CarType type;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Reservation> reservations;
 
