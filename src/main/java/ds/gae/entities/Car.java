@@ -32,7 +32,7 @@ public class Car implements Serializable {
 	private Key key;
 	
     private int id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    //@ManyToOne(cascade = CascadeType.ALL)
     private CarType type;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Reservation> reservations;

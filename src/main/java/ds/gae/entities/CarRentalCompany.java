@@ -39,12 +39,12 @@ public class CarRentalCompany implements Serializable {
 	
 	@Id
 	private String name;
-	@OneToMany(cascade = CascadeType.PERSIST)
-	private Set<Car> cars;
 	@OneToMany(cascade = CascadeType.ALL)
-	private Map<String, CarType> carTypes = new HashMap<String, CarType>();
+	private Set<Car> cars;
 	//@OneToMany(cascade = CascadeType.ALL)
-	//private Set<CarType> typeSet = new HashSet<CarType>();
+	//private Map<String, CarType> carTypes = new HashMap<String, CarType>();
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<CarType> typeSet = new HashSet<CarType>();
 	
 	/***************
 	 * CONSTRUCTOR *
@@ -58,7 +58,7 @@ public class CarRentalCompany implements Serializable {
 		setName(name);
 		this.cars = cars;
 		for(Car car:cars)
-			carTypes.put(car.getType().getName(), car.getType());
+			typeSet.add(car.getType());
 	}
 
 	/********
@@ -78,19 +78,33 @@ public class CarRentalCompany implements Serializable {
 	 *************/
 
 	public Collection<CarType> getAllCarTypes() {
-		return carTypes.values();
+		return this.typeSet;
 	}
 	
 	public CarType getCarType(String carTypeName) {
-		if(carTypes.containsKey(carTypeName))
-			return carTypes.get(carTypeName);
+		for (Car car: cars) {
+			if(car.getType().getName().equals(carTypeName)) {
+				return car.getType();
+			}
+		}
 		throw new IllegalArgumentException("<" + carTypeName + "> No car type of name " + carTypeName);
 	}
 	
 	public boolean isAvailable(String carTypeName, Date start, Date end) {
 		logger.log(Level.INFO, "<{0}> Checking availability for car type {1}", new Object[]{name, carTypeName});
-		if(carTypes.containsKey(carTypeName))
-			return getAvailableCarTypes(start, end).contains(carTypes.get(carTypeName));
+		Set<String> nameTypeSet = new HashSet<String>();
+		CarType theType = null;
+		for (CarType type: typeSet) {
+			nameTypeSet.add(type.getName());
+			if (type.getName().equals(carTypeName)) {
+				theType = type;
+			}
+		}
+		if (theType == null) {
+			throw new IllegalArgumentException("<" + carTypeName + "> No car type of name " + carTypeName);			
+		}
+		if(nameTypeSet.contains(carTypeName))
+			return getAvailableCarTypes(start, end).contains(theType);
 		throw new IllegalArgumentException("<" + carTypeName + "> No car type of name " + carTypeName);
 	}
 	
@@ -117,7 +131,7 @@ public class CarRentalCompany implements Serializable {
 	}
 	
 	public Set<Car> getCars() {
-    	return cars;
+    	return this.cars;
     }
 	
 	private List<Car> getAvailableCars(String carType, Date start, Date end) {

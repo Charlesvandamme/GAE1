@@ -41,15 +41,15 @@ public class CarRentalModel {
 		return (crc != null);
 	}
 	
-	/*public static void addCarRentalCompany(CarRentalCompany crc) throws IllegalArgumentException {
+	public static void addCarRentalCompany(CarRentalCompany crc) throws IllegalArgumentException {
 		if (crc == null) {
 			throw new IllegalArgumentException("The given car rental company may not refer the null reference.");
 		}
 		EntityManager em = getEntityManager();
 		em.persist(crc);
+		System.out.println("hier gaat het nog steeds fout");
 		em.close();
-		System.out.println("not closed :(");
-		}*/
+		}
 		
 	
 	
@@ -106,9 +106,9 @@ public class CarRentalModel {
     		out = crc.createQuote(constraints, renterName);
             em.close();
 
-        } //else {
-        //	throw new ReservationException("CarRentalCompany not found.");    	
-        //}
+        } else {
+        	throw new ReservationException("CarRentalCompany not found.");    	
+        }
         return out;
     }
     
